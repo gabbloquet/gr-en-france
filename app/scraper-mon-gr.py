@@ -1,12 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.service import Service
 import time
+
 import pandas as pd
-import re
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 
 # URL de base
 URL_BASE = "https://www.mongr.fr/trouver-prochaine-randonnee/carte?duree=4-6"
@@ -26,7 +24,8 @@ time.sleep(1)
 # Effectuer un zoom avant sur la carte
 driver.execute_script("window.scrollTo(0, document.body.scrollHeight / 3);")
 time.sleep(1)
-zoom_in_button = driver.find_element(By.XPATH, "//div[@class='esriSimpleSliderIncrementButton' and @title='Zoom avant']")
+zoom_in_button = driver.find_element(By.XPATH,
+                                     "//div[@class='esriSimpleSliderIncrementButton' and @title='Zoom avant']")
 zoom_in_button.click()
 zoom_in_button.click()  # Vous pouvez ajouter plus de clics si vous voulez un zoom plus important
 time.sleep(2)  # Attendre que la carte soit bien zoomée
@@ -39,10 +38,6 @@ for img in image_elements:
 # Afficher les éléments trouvés
 print(f"Nombre d'éléments image trouvés : {len(image_elements)}")
 
-gr_data = []
-
-# Interagir avec chaque élément image trouvé
-# Initialisation de la liste des données GR
 gr_data = []
 
 # Boucle pour interagir avec chaque élément image trouvé
@@ -77,7 +72,8 @@ for index, image in enumerate(image_elements):
                 "Lien": driver.current_url
             })
 
-            print(f"GR trouvé: {gr_name}, Distance: {distance}, Durée: {duration}, Départ: {start_point}, Arrivée: {end_point}")
+            print(
+                f"GR trouvé: {gr_name}, Distance: {distance}, Durée: {duration}, Départ: {start_point}, Arrivée: {end_point}")
 
             # Revenir à la carte après avoir récupéré les informations
             ActionChains(driver).move_to_element(image).click().perform()
@@ -100,4 +96,4 @@ for index, image in enumerate(image_elements):
 df = pd.DataFrame(gr_data)
 df.to_csv("mon-gr.csv", index=False, encoding="utf-8", sep=";")
 
-print("Scraping terminé, fichier CSV généré avec succès.")
+print("Scraping Mon GR terminé, fichier CSV généré avec succès.")

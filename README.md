@@ -21,7 +21,7 @@ Avant d'exécuter ces scripts, assurez-vous d'avoir installé les dépendances s
   Vous devez installer les bibliothèques nécessaires. Vous pouvez le faire en utilisant `pip` :
 
   ```bash
-  pip install selenium pandas
+  pip install -r requirements.txt
   ```
 
 ## Instructions d'Utilisation
